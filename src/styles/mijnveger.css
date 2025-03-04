@@ -1,0 +1,72 @@
+#mijnveger {
+    --sprite-image: url("../images/sprite.png");
+    display: flex;
+    flex-direction: column;
+}
+
+#mijnveger .row {
+    display: flex;
+    flex-direction: row;
+}
+
+#mijnveger .cell {
+    height: 16px;
+    min-height: 16px;
+    width: 16px;
+    min-width: 16px;
+    background: var(--sprite-image) 0 0;
+    image-rendering: pixelated;
+}
+
+#mijnveger .cell.discovered,
+#mijnveger:not(.unplayable) .cell:not(.discovered, .flag):active:hover {
+    background-position: -16px 0;
+}
+
+#mijnveger .cell.flag {
+    background-position: -32px 0;
+}
+
+#mijnveger .cell.mine {
+    background-position: -48px 0;
+}
+
+#mijnveger .cell.wrong.mine {
+    background-position: -64px 0;
+}
+
+#mijnveger .cell.wrong.flag {
+    background-position: -80px 0;
+}
+
+#mijnveger .cell.one {
+    background-position: 0 -16px;
+}
+
+#mijnveger .cell.two {
+    background-position: -16px -16px;
+}
+
+#mijnveger .cell.three {
+    background-position: -32px -16px;
+}
+
+#mijnveger .cell.four {
+    background-position: -48px -16px;
+}
+
+#mijnveger .cell.five {
+    background-position: -64px -16px;
+}
+
+#mijnveger .cell.six {
+    background-position: -80px -16px;
+}
+
+#mijnveger .cell.seven {
+    background-position: -96px -16px;
+}
+
+#mijnveger .cell.eight {
+    background-position: -96px 0;
+}
