@@ -10,30 +10,34 @@ let brein: Brein;
 let cursor: Cursor;
 let move: Move | null;
 
-const delay = 100,
-    mijnvegerElement = document.getElementById("mijnveger") as HTMLDivElement,
-    width = Math.ceil(innerWidth / 16),
-    height = Math.ceil(innerHeight / 16);
+const delay = 100;
+const mijnvegerElement = document.getElementById("mijnveger") as HTMLDivElement;
+let width = Math.ceil(innerWidth / 16);
+let height = Math.ceil(innerHeight / 16);
 
-mijnveger = new Mijnveger({
-    element: mijnvegerElement,
-    width: width,
-    height: height,
-    numberOfMines: Math.floor((width * height) / (480 / 99))
-});
+function init() {
+    mijnveger = new Mijnveger({
+        element: mijnvegerElement,
+        width: width,
+        height: height,
+        numberOfMines: Math.floor((width * height) / (480 / 99))
+    });
 
-mijnveger.addEventListener("gamewon", () => {
-    setTimeout(restart, 10e3);
-});
+    mijnveger.addEventListener("gamewon", () => {
+        setTimeout(mijnveger.reset, 10e3);
+    });
 
-mijnveger.addEventListener("gameover", () => {
-    setTimeout(restart, 5e3);
-});
+    mijnveger.addEventListener("gameover", () => {
+        setTimeout(mijnveger.reset, 5e3);
+    });
 
-brein = new Brein(mijnveger);
-cursor = new Cursor(delay);
+    brein = new Brein(mijnveger);
+    cursor = new Cursor(delay);
 
-play();
+    setInterval(play, 100);
+
+    window.addEventListener("resize", onResize);
+}
 
 function play() {
     if (move) {
@@ -49,10 +53,23 @@ function play() {
 
     const pos = mijnveger.getCellPosition(move.index);
     cursor.move(pos.x, pos.y);
-    setTimeout(play, delay);
 }
 
-function restart() {
-    mijnveger.reset();
-    setTimeout(play, 200);
+function onResize() {
+    move = null;
+    mijnvegerElement.replaceChildren();
+
+    width = Math.ceil(innerWidth / 16);
+    height = Math.ceil(innerHeight / 16);
+
+    mijnveger = new Mijnveger({
+        element: mijnvegerElement,
+        width: width,
+        height: height,
+        numberOfMines: Math.floor((width * height) / (480 / 99))
+    });
+
+    brein = new Brein(mijnveger);
 }
+
+init();
